@@ -1,12 +1,17 @@
 const express = require('express');
+require('express-async-errors');
 
 const app = express();
 
 const routes = require('./routes');
+const errorMiddleware = require('./errors/errorMiddleware');
 
 app.use(express.json());
 
 app.use('/products', routes.productRoute);
+
+// o erro deve ser o ultimo
+app.use(errorMiddleware);
 
 // não remova esse endpoint, é para o avaliador funcionar
 app.get('/', (_request, response) => {
