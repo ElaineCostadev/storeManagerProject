@@ -1,7 +1,14 @@
+const chai = require("chai");
+const chaiAsPromised = require("chai-as-promised");
 const { expect } = require('chai');
 const Sinon = require('sinon');
 const productsModel = require('../../../models/productsModels');
 const productsService = require('../../../services/productsServices');
+const CustomError = require('../../../errors/CustomError');
+const validateProducts = require("../../../middlewares/validateProducts");
+
+chai.use(chaiAsPromised);
+
 
 describe('Verificando testes do productsServices', () => {
   describe('Verifica quando é chamado endpoint get. no /products', () => {
@@ -46,6 +53,41 @@ describe('Verificando testes do productsServices', () => {
 
     });
 
+    it('Quando o produto é cadastrado com sucesso', async () => {
+      const returnResultExpect = { name: 'ProductOk' }
+
+      Sinon.stub(productsModel, 'create').resolves(returnResultExpect);
+      const resultService = await productsService.create();
+
+      expect(resultService).to.be.a('object');
+      expect(resultService).to.have.key('name');
+    });
+
+/*     describe('Validações do Middleware de erro', () => {
+      it('Quando não é possivel cadastrar o produto pelo nome', async () => {
+        const req = {};
+        const res = {};
+
+        res.status = Sinon.stub().returns(res);
+        res.json = Sinon.stub().returns();
+        req.body = {};
+        
+        
+
+        return expect(await validateProducts(req, res))
+          .to.be.rejectedWith('name is required' )
+          .and.be.an.instanceOf(CustomError)
+          .and.to.include({ status: 400 })
+        
+        
+       //  expect(res.status.calledWith(404)).to.be.equal(false)
+        // res.status(400).json({ message: '"name" is required' });
+        
+      });
+
+
+
+    }); */
   });
 });
 
