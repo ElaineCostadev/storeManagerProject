@@ -38,22 +38,15 @@ describe('Verificando testes do productsModels', () => {
 
     });
 
- /*    it('Quando é chamado e o ID não existir no getByPk', async () => {
-      const execute = [{ insertId: 1 }];
-      const returnResultExpect = [
-        { id: 1, name: 'Martelo de Thor' },
-        { id: 2, name: 'Traje de encolhimento' },
-        { id: 3, name: 'Escudo do Capitão América' },
-      ]
+    it('Quando é criado um produto produto com sucesso', async () => {
+      const returnResultExpect = { name: 'Elaine' };
 
-      Sinon.stub(connection, 'execute').resolves(execute);
+      Sinon.stub(connection, 'execute').resolves([[returnResultExpect]]);
 
-      const result = await productsModel.getByPk([returnResultExpect]);
+      const [resultModel] = await productsModel.create('Elaine');
 
-      expect(result).to.not.have.a.property(id);
-      // expect(resultService).to.be.a('object');
-
-    }); */
+      expect(resultModel).to.be.equals(returnResultExpect);
+    });
 
   });
 });
