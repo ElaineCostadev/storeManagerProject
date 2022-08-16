@@ -9,6 +9,7 @@ const errorMiddleware = require('./errors/errorMiddleware');
 app.use(express.json());
 
 app.use('/products', routes.productRoute);
+app.use('/sales', routes.salesRoute);
 
 // o erro deve ser o ultimo
 app.use(errorMiddleware);
