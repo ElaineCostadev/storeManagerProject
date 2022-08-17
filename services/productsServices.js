@@ -6,9 +6,8 @@ const productsServices = {
 
   getByPk: async (id) => {
     const result = await productsModel.getByPk(id);
-    // if (!result) return null;
     if (!result) throw new CustomError(404, 'Product not found');
-    // return res.status(404).json({ message: 'Product not found' });
+   //  if (!result) return res.status(404).json({ message: 'Product not found' });
     return result;
   },
 
@@ -16,6 +15,26 @@ const productsServices = {
     const product = await productsModel.create(nameProduct);
     if (!product) return null;
     return product;
+  },
+
+  update: async (objProduct) => {
+    const { id, name } = objProduct;
+    const checkIfExists = await productsModel.getByPk(id);
+    if (!checkIfExists) throw new CustomError(404, 'Product not found');
+
+    const result = await productsModel.update(id, name);
+
+    if (result.affectedRows === 0) throw new CustomError(404, 'Product not found');
+
+    return { id, name };
+  },
+
+  exclude: async (id) => {
+    const checkIfExists = await productsModel.getByPk(id);
+    if (!checkIfExists) throw new CustomError(404, 'Product not found');
+
+    const result = await productsModel.exclude(id);
+    return result;
   },
 
 };
