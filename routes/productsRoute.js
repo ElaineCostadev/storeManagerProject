@@ -9,4 +9,8 @@ productRoute.get('/:id', productsControllers.getByPk);
 
 productRoute.post('/', validateProducts, productsControllers.create);
 
+productRoute.put('/:id', validateProducts, productsControllers.update);
+
+productRoute.delete('/:id', productsControllers.exclude);
+
 module.exports = productRoute;
