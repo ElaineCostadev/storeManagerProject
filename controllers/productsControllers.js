@@ -24,6 +24,19 @@ const productsControllers = {
       name,
     });
   },
+
+  update: async (req, res) => {
+    const { id } = req.params;
+    const { name } = req.body;
+    const productId = await productsServices.update({ id, name });
+    return res.status(200).json(productId);
+  },
+
+  exclude: async (req, res) => {
+    const { id } = req.params;
+    await productsServices.exclude(id);
+    return res.status(204).end('deu certo');
+  },
 };
 
 module.exports = productsControllers;
