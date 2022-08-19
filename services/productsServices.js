@@ -6,7 +6,7 @@ const productsServices = {
 
   getByPk: async (id) => {
     const result = await productsModel.getByPk(id);
-    console.log(result, 'result');
+
     if (!result) throw new CustomError(404, 'Product not found');
    //  if (!result) return res.status(404).json({ message: 'Product not found' });
     return result;
@@ -23,9 +23,9 @@ const productsServices = {
     const checkIfExists = await productsModel.getByPk(id);
     if (!checkIfExists) throw new CustomError(404, 'Product not found');
 
-    const result = await productsModel.update(id, name);
+    await productsModel.update(id, name);
 
-    if (result.affectedRows === 0) throw new CustomError(404, 'Product not found');
+   // if (result.affectedRows === 0) throw new CustomError(404, 'Product not found');
 
     return { id, name };
   },
