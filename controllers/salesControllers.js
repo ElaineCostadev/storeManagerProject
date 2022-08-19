@@ -24,6 +24,7 @@ const salesController = {
   update: async (req, res) => {
     const { id } = req.params;
     const { body } = req;
+
     const salesResponse = await salesService.update(id, body);
 
     return res.status(200).json(salesResponse);
