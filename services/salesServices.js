@@ -4,7 +4,23 @@ const salesModel = require('../models/salesModels');
 
 // https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
 // e course para lembrar do promisse all
+
+// mentoria André - não preciso fazer o map para renomear, já trago as informações conforme o esperado
 const salesService = {
+  getAll: async () => {
+    const salesResult = await salesModel.getAll();
+    return salesResult;
+  },
+
+  getByPk: async (id) => {
+    // const verifySale = await salesModel.checkIfSalesExists(id);
+    
+    const salesResult = await salesModel.getByPk(id);
+    if (salesResult.length === 0) throw new CustomError(404, 'Sale not found');
+
+    return salesResult;
+  },
+
   createSales: async (sales) => {
     const allProducts = await productsModel.getAll();
 
@@ -22,35 +38,20 @@ const salesService = {
     return salesProducts;
   },
 
-  getAll: async () => {
-    const salesResult = await salesModel.getAll();
-    const mapSales = salesResult.map((eachSale) => {
-      const resultObj = {
-        saleId: eachSale.id,
-        date: eachSale.date,
-        productId: eachSale.product_id,
-        quantity: eachSale.quantity,
-      };
-      return resultObj;
-    });
-    return mapSales;
+  update: async (id, body) => {
+    const verifySale = await salesModel.checkIfSalesExists(id);
+    if (verifySale.length === 0) throw new CustomError(404, 'Sale not found');
+    console.log(body);
+    const itemUpdate = await salesModel.update(id, body);
+    return itemUpdate;
   },
 
-  getByPk: async (id) => { 
+  exclude: async (id) => {
     const verifySale = await salesModel.checkIfSalesExists(id);
     if (verifySale.length === 0) throw new CustomError(404, 'Sale not found');
 
-    const salesResult = await salesModel.getByPk(id);
-    const mapSales = salesResult.map((eachSale) => {
-      const resultObj = {
-        date: eachSale.date,
-        productId: eachSale.product_id,
-        quantity: eachSale.quantity,
-      };
-      return resultObj;
-      });
-
-    return mapSales;
+    const itemExlude = await salesModel.exclude(id);
+    return itemExlude;
   },
 
 };
