@@ -11,4 +11,8 @@ salesRoute.get('/:id', salesController.getByPk);
 
 salesRoute.post('/', validateSales, salesController.createSales);
 
+salesRoute.put('/:id', salesController.update);
+
+salesRoute.delete('/:id', salesController.exclude);
+
 module.exports = salesRoute;
