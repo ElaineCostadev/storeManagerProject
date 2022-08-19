@@ -39,8 +39,7 @@ const salesService = {
   },
 
   update: async (id, body) => {
-
-    // verifico se a sale existe;
+  // verifico se a sale existe;
     const verifySale = await salesModel.checkIfSalesExists(id);
     if (verifySale.length === 0) throw new CustomError(404, 'Sale not found');
 
