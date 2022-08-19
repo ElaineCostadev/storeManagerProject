@@ -11,7 +11,7 @@ salesRoute.get('/:id', salesController.getByPk);
 
 salesRoute.post('/', validateSales, salesController.createSales);
 
-salesRoute.put('/:id', salesController.update);
+salesRoute.put('/:id', validateSales, salesController.update);
 
 salesRoute.delete('/:id', salesController.exclude);
 
