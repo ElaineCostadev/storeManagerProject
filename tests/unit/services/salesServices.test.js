@@ -115,13 +115,33 @@ describe('Verificando testes do salesServices', () => {
   });
 
   describe('Verifica quando é chamado a funcao create no /sales', () => {
-/*     const returnResultProducts = [
-      { id: 1, name: 'Martelo de Thor' },
-      { id: 2, name: 'Traje de encolhimento' },
-      { id: 3, name: 'Escudo do Capitão América' },
+    const allProducts = [
+      {
+        "id": 1,
+        "name": "Martelo de Thor"
+      },
+      {
+        "id": 2,
+        "name": "Traje de encolhimento"
+      },
+      {
+        "id": 3,
+        "name": "Escudo do Capitão América"
+      }
+    ]
+
+    const productSalesSucess = [
+      {
+        "productId": 1,
+        "quantity": 1
+      },
+      {
+        "productId": 2,
+        "quantity": 5
+      }
     ];
- */
-    const productSales = [
+
+    const productSalesInvalid = [
       {
         "productId": 1,
         "quantity": 1
@@ -148,39 +168,64 @@ describe('Verificando testes do salesServices', () => {
 
     afterEach(() => Sinon.restore())
 
-    it('Quando o produto é cadastrado com sucesso',)/*  async () => {
-      Sinon.stub(productsModel, 'getAll').resolves(returnExpectSales);
-      
-      const checkIfProductExists = productSales.every((eachItens) => returnResultProducts
-        .some((eachProduct) => eachProduct.id === eachItens.productId));
-      
-
+    it('Quando o produto é criado e cadastrado com sucesso', async () => {
+      Sinon.stub(productsModel, 'getAll').resolves(allProducts);
+    
       Sinon.stub(salesModel, 'createSales').resolves(returnExpectSales);
 
-      const resultService = await salesService.createSales(productSales);
-
-      console.log(resultService);
+      const resultService = await salesService.createSales(productSalesSucess);
 
       expect(resultService).to.be.a('object');
       expect(resultService).to.all.keys('id', 'itemsSold');
       expect(resultService).to.be.equals(returnExpectSales) 
-    });*/
+    });
 
-    it('Quando o produto não é encontrado e não é possivel cadastrar a Sale e CustomError lança o erro',) /* async () => {
-      Sinon.stub(productsModel, 'getAll').resolves(returnResultProducts);
-
-      Sinon.stub(salesModel, 'createSales').resolves(returnExpectSales);
-
-      return expect(salesService.createSales(productSales))
+    it('Quando o produto não é encontrado e não é possivel cadastrar a Sale e CustomError lança o erro', async () => {
+      return expect(salesService.createSales(productSalesInvalid))
         .to.eventually.be.rejectedWith('Product not found')
         .and.be.an.instanceOf(CustomError)
         .and.have.property('status', 404);
-    }); */
+    });
   });
 
   describe('Verifica quando é chamado a funcao Update no /sales', () => {
+    const saleExists = [
+      {
+        "id": 1,
+        "date": "2022-08-19T14:06:32.000Z"
+      },
+      {
+        "id": 2,
+        "date": "2022-08-19T14:06:32.000Z"
+      }
+    ];
 
-   
+    const allProducts = [
+      {
+        "id": 1,
+        "name": "Martelo de Thor"
+      },
+      {
+        "id": 2,
+        "name": "Traje de encolhimento"
+      },
+      {
+        "id": 3,
+        "name": "Escudo do Capitão América"
+      }
+    ]
+    
+
+    const productSalesInvalid = [
+      {
+        "productId": 1,
+        "quantity": 1
+      },
+      {
+        "productId": 33,
+        "quantity": 5
+      }
+    ];
 
     const productSales = [
       {
@@ -188,7 +233,7 @@ describe('Verificando testes do salesServices', () => {
         "quantity": 1
       },
       {
-        "productId": 33,
+        "productId": 2,
         "quantity": 5
       }
     ];
@@ -211,8 +256,10 @@ describe('Verificando testes do salesServices', () => {
     afterEach(() => Sinon.restore())
 
     it('Quando o produto é atualizado com sucesso', async () => {
-      
-      Sinon.stub(salesModel, 'checkIfSalesExists').resolves(returnResultExpect);
+      Sinon.stub(salesModel, 'checkIfSalesExists').resolves(saleExists);
+
+      Sinon.stub(productsModel, 'getAll').resolves(allProducts)
+
       Sinon.stub(salesModel, 'update').resolves(returnResultExpect);
 
       const resultService = await salesService.update(1, productSales);
@@ -222,10 +269,20 @@ describe('Verificando testes do salesServices', () => {
       expect(resultService).to.have.keys('saleId', 'itemsUpdated');
     });
 
-    it('Quando o produto não é atualizado e é lançado um erro com CustomError', async () => {
+    it('Quando a Sale não existe, não é atualizado e é lançado um erro com CustomError', async () => {
 
       return expect(salesService.update(7, productSales))
         .to.eventually.be.rejectedWith('Sale not found')
+        .and.be.an.instanceOf(CustomError)
+        .and.have.property('status', 404);
+
+      // a minha frase está com falso positivo?
+    });
+
+    it('Quando o Product não existe, não é atualizado e é lançado um erro com CustomError', async () => {
+
+      return expect(salesService.update(1, productSalesInvalid))
+        .to.eventually.be.rejectedWith('Product not found')
         .and.be.an.instanceOf(CustomError)
         .and.have.property('status', 404);
 
