@@ -101,24 +101,22 @@ describe('Verificando testes do productsServices', () => {
 
       Sinon.stub(productsModel, 'update').resolves(returnResultExpect);
 
-      const resultService = await productsService.update(returnResultExpect);
+      const resultService = await productsService.update
+        (returnResultExpect);
+      
+      //const affectedRowsUpdate = resultService.affectedRows
 
       expect(resultService).to.be.a('object');
-      expect(resultService).to.have.keys( 'id', 'name');
+      expect(resultService).to.have.keys('id', 'name');
+      //expect(affectedRowsUpdate).to.be(1);
     });
 
-    it('Quando o produto não é atualizado e é lançado um erro com CustomError', async () => {
+    it('Quando o produto não é encontrado, não é atualizado e é lançado um erro com CustomError', async () => {
  
-      const returnResultExpect = { id: 4, name: 'Jaqueline' }
-
-      Sinon.stub(productsModel, 'getByPk').resolves(returnResultExpect);
-
       return expect(productsService.update({ id: 9, name: 'NovoUpdate' }))
-        .to.eventually.be.rejectedWith('Product not')
+        .to.eventually.be.rejectedWith('Product not found')
         .and.be.an.instanceOf(CustomError)
         .and.have.property('status', 404);
-      
-      // a minha frase está com falso positivo?
     });
   });
 
