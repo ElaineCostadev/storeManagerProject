@@ -39,10 +39,21 @@ const salesService = {
   },
 
   update: async (id, body) => {
+
+    // verifico se a sale existe;
     const verifySale = await salesModel.checkIfSalesExists(id);
     if (verifySale.length === 0) throw new CustomError(404, 'Sale not found');
-    console.log(body);
+
+    // verifico se o product existe
+    const allProducts = await productsModel.getAll();
+
+    const checkIfProductExists = body.every((eachItens) => allProducts
+      .some((eachProduct) => eachProduct.id === eachItens.productId));
+    if (!checkIfProductExists) throw new CustomError(404, 'Product not found');
+
+    // se existirem, cadastro no banco de dados
     const itemUpdate = await salesModel.update(id, body);
+
     return itemUpdate;
   },
 
