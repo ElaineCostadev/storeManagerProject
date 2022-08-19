@@ -166,8 +166,8 @@ describe('Verificando testes da camada salesModels', () => {
       const resultModel = await salesModel.update(3, updatedProduct);
       //const resultExpect = resultModel.affectedRows
 
-      console.log(resultModel, 'resultModel');
       expect(resultModel).to.be.an('object');
+      expect(resultModel).to.have.key('saleId', 'itemsUpdated');
     });
   });
 
