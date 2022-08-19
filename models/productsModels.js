@@ -9,7 +9,6 @@ const productsModel = {
   getByPk: async (id) => {
     const [[products]] = await connection.execute(`SELECT * FROM StoreManager.products
     WHERE id = ? ORDER BY id;`, [id]);
-    console.log(products);
     return products;
   },
 
