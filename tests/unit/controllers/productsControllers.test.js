@@ -4,7 +4,7 @@ const productsService = require('../../../services/productsServices');
 const productsController = require('../../../controllers/productsControllers');
 
 describe('Verificando testes do productsControllers', () => {
-  describe('Verifica quando é chamado get. no /products', () => {
+  describe('Verifica quando é chamado getAll no /products', () => {
     afterEach(() => Sinon.restore())
 
     it('Quando é chamado com sucesso e aparecem todos os produtos no getAll', async () => {
@@ -25,8 +25,10 @@ describe('Verificando testes do productsControllers', () => {
 
       expect(res.status.calledWith(200)).to.be.true;
       expect(res.json.args[0][0]).to.be.equal(returnResultExpect);
-      
     });
+  });
+
+  describe('Verifica quando é chamado getByPk no /products', () => {
 
     it('Quando é chamado com sucesso com ID e aparece apenas 1 product no getByPk', async () => {
       const req = {};
@@ -43,31 +45,65 @@ describe('Verificando testes do productsControllers', () => {
       await productsController.getByPk(req, res);
 
       expect(res.status.calledWith(200)).to.be.true;
-
     });
+  });
 
-    it('Quando é chamado e o ID não existir no getByPk ', async () => {
+  describe('Verifica quando é chamado create no /products', () => {
+    it('Quando o produto é criado com sucesso ', async () => {
+      const req = {};
+      const res = {};
+      req.body = {};
+
+      res.status = Sinon.stub().returns(res);
+      res.json = Sinon.stub().returns();
+
+      const returnResultExpect = { name: 'NovoProdutoCadastrado' }
+
+      Sinon.stub(productsService, 'create').resolves(returnResultExpect);
+
+      await productsController.create(req, res);
+      expect(res.status.calledWith(201)).to.be.true;
+      // expect(res.json.calledWith())
+    });
+  });
+  describe('Verifica quando é chamado update no /products', () => {
+    it('Quando o produto é atualizado com sucesso ', async () => {
+      const req = {};
+      const res = {};
+      req.params = {};
+      req.body = {};
+
+      res.status = Sinon.stub().returns(res);
+      res.json = Sinon.stub().returns();
+
+      const returnResultExpect = { id: 1, name: 'NovoProdutoCadastrado' }
+
+      Sinon.stub(productsService, 'update').resolves([returnResultExpect]);
+
+      await productsController.update(req, res);
+
+      expect(res.status.calledWith(200)).to.be.true;
+    });
+  });
+
+  describe('Verifica quando é chamado exclude no /products', () => {
+    it('Quando o produto é deletado com sucesso ', async () => {
       const req = {};
       const res = {};
       req.params = {};
 
       res.status = Sinon.stub().returns(res);
-      res.json = Sinon.stub().returns();
-      
-      const returnResultExpect = { "message": "Product not found" }
-      
-      Sinon.stub(productsService, 'getByPk').resolves([returnResultExpect]);
-      
-      await productsController.getByPk(req, res);
+      res.end = Sinon.stub().returns();
 
-      expect(res.status.calledWith(404)).to.be.equal(false);
+      const returnResultExpect = { id: 1 }
 
-      // expect(res.status.calledWith(404)).to.be.equal(true);
-      // expect(res.json.calledWith('Product not found')).to.be.equal(returnResultExpect);
-      // expect(res.json.calledWith('Product not found')).to.be.equal(true);
-     //  expect(res.json.calledWith('Product not found')).to.be.equal(true);
+      Sinon.stub(productsService, 'exclude').resolves(returnResultExpect);
+
+      await productsController.exclude(req, res);
+
+      expect(res.status.calledWith(204)).to.be.true;
 
     });
+  });
 
-  })
-})
+});
