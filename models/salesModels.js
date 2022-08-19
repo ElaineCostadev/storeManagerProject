@@ -50,7 +50,7 @@ const salesModel = {
   },
 
   checkIfSalesExists: async (id) => {
-    const [sale] = await connection.execute('SELECT * FROM StoreManager.sales WHERE id = ?', [id]);
+    const [sale] = await connection.execute('SELECT * FROM StoreManager.sales WHERE id = ?;', [id]);
     return sale;
   },
 
@@ -59,8 +59,8 @@ const salesModel = {
       await connection
         .execute(`UPDATE StoreManager.sales_products
                   SET product_id = ?, quantity = ?
-                  WHERE sale_id = ?;`,
-          [eachProduct.productId, eachProduct.quantity, id]);
+                  WHERE sale_id = ? AND product_id = ?;`,
+          [eachProduct.productId, eachProduct.quantity, id, eachProduct.productId]);
     });
     return { saleId: id, itemsUpdated: body };
   },
