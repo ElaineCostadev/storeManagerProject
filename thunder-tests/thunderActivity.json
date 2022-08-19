@@ -1,33 +1,5 @@
 [
   {
-    "_id": "8a13a971-8a0e-4533-a789-19016121faa9",
-    "colId": "history",
-    "containerId": "",
-    "name": "https://www.thunderclient.com/welcome",
-    "url": "https://www.thunderclient.com/welcome",
-    "method": "GET",
-    "sortNum": 0,
-    "created": "2022-08-12T18:49:16.853Z",
-    "modified": "2022-08-12T18:49:17.992Z",
-    "headers": [],
-    "params": [],
-    "tests": []
-  },
-  {
-    "_id": "4f15e025-e7e1-48a0-8764-bfad6a40e0e2",
-    "colId": "history",
-    "containerId": "",
-    "name": "https://localhost/3000",
-    "url": "https://localhost/3000",
-    "method": "GET",
-    "sortNum": 0,
-    "created": "2022-08-12T18:49:32.496Z",
-    "modified": "2022-08-12T18:49:32.519Z",
-    "headers": [],
-    "params": [],
-    "tests": []
-  },
-  {
     "_id": "ada0abcf-95d0-4c56-9efb-d887973581df",
     "colId": "history",
     "containerId": "",
@@ -61,29 +33,15 @@
     "tests": []
   },
   {
-    "_id": "9f6b68fb-2b41-4d95-80fd-61b49d12956c",
-    "colId": "history",
-    "containerId": "",
-    "name": "db/products",
-    "url": "db/products",
-    "method": "GET",
-    "sortNum": 0,
-    "created": "2022-08-12T18:50:32.022Z",
-    "modified": "2022-08-12T18:51:18.687Z",
-    "headers": [],
-    "params": [],
-    "tests": []
-  },
-  {
     "_id": "cd62b095-4fe5-4240-9c6b-a6da373cfc29",
     "colId": "history",
     "containerId": "",
     "name": "db:3000/products",
-    "url": "db:3000/products",
-    "method": "GET",
+    "url": "localhost:3000/sales/1",
+    "method": "DELETE",
     "sortNum": 0,
     "created": "2022-08-12T18:51:38.046Z",
-    "modified": "2022-08-12T18:56:01.662Z",
+    "modified": "2022-08-17T22:52:29.783Z",
     "headers": [],
     "params": [],
     "tests": []
@@ -107,16 +65,16 @@
     "colId": "history",
     "containerId": "",
     "name": "db:3001/products",
-    "url": "localhost:3000/products/4",
+    "url": "localhost:3000/sales/1",
     "method": "GET",
     "sortNum": 0,
     "created": "2022-08-12T18:56:25.465Z",
-    "modified": "2022-08-17T19:59:02.573Z",
+    "modified": "2022-08-19T00:13:35.011Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n\n}",
+      "raw": "  [\n    {\n      \"productId\": 1,\n      \"quantity\":10\n    },\n    {\n      \"productId\": 2,\n      \"quantity\":30\n    }\n  ]",
       "form": []
     },
     "tests": []
