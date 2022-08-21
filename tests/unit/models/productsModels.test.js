@@ -58,6 +58,42 @@ describe('Verificando testes do productsModels', () => {
     });
   });
 
+  describe('Verifica quando é chamado a função getBySearch. no /products', () => {
+    afterEach(() => Sinon.restore())
+
+    it('Quando é chamado com sucesso o name e existe em products ', async () => {
+      const returnFunction = { id: 1, name: 'Martelo de Thor' };
+
+      Sinon.stub(connection, 'execute').resolves([returnFunction]);
+
+      const resultModel = await productsModel.getBySearch("Traje");
+
+      expect(resultModel).to.be.equals(returnFunction);
+
+    });
+
+    it('Quando é chamado a função getBySearch e não foi encontrado um novo existente no banco de dados', async () => {
+      const returnFuncion = [
+        { id: 1, name: 'Martelo de Thor' },
+        { id: 2, name: 'Traje de encolhimento' },
+        { id: 3, name: 'Escudo do Capitão América' },
+      ];
+
+      Sinon.stub(connection, 'execute').resolves([returnFuncion]);
+
+      const resultModel = await productsModel.getBySearch('Teste');
+
+      expect(resultModel).to.be.equals(returnFuncion);
+
+    });
+  });
+
+
+
+
+
+
+
   describe('Verifica quando é chamado a função CREATE. no /products', () => {
     afterEach(() => Sinon.restore())
 
