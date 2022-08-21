@@ -14,6 +14,14 @@ const productsControllers = {
     return res.status(200).json(productId);
   },
 
+  getBySearch: async (req, res) => {
+    const nameProduct = req.query.q;
+
+    const queryProduct = await productsServices.getBySearch(nameProduct);
+    
+    return res.status(200).json(queryProduct);
+  },
+
   create: async (req, res) => {
     const { name } = req.body;
     const productResult = await productsServices.create(name);
