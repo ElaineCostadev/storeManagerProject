@@ -1,3 +1,4 @@
+const { uriTooLong } = require('@hapi/boom');
 const CustomError = require('../errors/CustomError');
 const productsModel = require('../models/productsModels');
 
@@ -10,6 +11,11 @@ const productsServices = {
     if (!result) throw new CustomError(404, 'Product not found');
    //  if (!result) return res.status(404).json({ message: 'Product not found' });
     return result;
+  },
+
+  getBySearch: async (name) => {
+    const resultSearch = await productsModel.getBySearch(name);
+    return resultSearch;
   },
 
   create: async (nameProduct) => {
