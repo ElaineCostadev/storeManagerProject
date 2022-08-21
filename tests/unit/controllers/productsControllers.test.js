@@ -48,6 +48,26 @@ describe('Verificando testes do productsControllers', () => {
     });
   });
 
+  describe('Verifica quando é chamado getBySearch no /products', () => {
+
+    it('Quando é chamado com sucesso o name e existe em products', async () => {
+      const req = {};
+      const res = {};
+
+      res.status = Sinon.stub().returns(res);
+      res.json = Sinon.stub().returns();
+      req.query = {};
+
+      const returnResultExpect = { id: 1, name: 'Martelo de Thor' }
+
+      Sinon.stub(productsService, 'getBySearch').resolves(returnResultExpect);
+
+      await productsController.getBySearch(req, res);
+
+      expect(res.status.calledWith(200)).to.be.true;
+    });
+  });
+
   describe('Verifica quando é chamado create no /products', () => {
     it('Quando o produto é criado com sucesso ', async () => {
       const req = {};
