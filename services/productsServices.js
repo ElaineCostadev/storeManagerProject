@@ -1,4 +1,3 @@
-const { uriTooLong } = require('@hapi/boom');
 const CustomError = require('../errors/CustomError');
 const productsModel = require('../models/productsModels');
 
