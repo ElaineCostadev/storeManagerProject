@@ -74,6 +74,37 @@ describe('Verificando testes do productsServices', () => {
 
   });
 
+  describe('Verifica quando é chamado a funcao getBySearch no /products', () => {
+    afterEach(() => Sinon.restore())
+
+    it('Quando é chamado com sucesso o name e existe em products', async () => {
+      const returnResultExpect = { id: 1, name: 'Martelo de Thor' }
+      Sinon.stub(productsModel, 'getBySearch').resolves(returnResultExpect);
+
+      const resultService = await productsService.getBySearch("Martelo");
+
+      expect(resultService).to.be.equal(returnResultExpect);
+      expect(resultService).to.be.an('object')
+      expect(resultService).to.have.keys('id', 'name');
+
+    });
+
+    it('Quando é chamado a função getBySearch e não foi encontrado um novo existente no banco de dados', async () => {
+      const returnResultExpect = [
+        { id: 1, name: 'Martelo de Thor' },
+        { id: 2, name: 'Traje de encolhimento' },
+        { id: 3, name: 'Escudo do Capitão América' },
+      ]
+      Sinon.stub(productsModel, 'getBySearch').resolves(returnResultExpect);
+
+      const resultService = await productsService.getBySearch("Teste");
+
+      expect(resultService).to.be.a('array');
+      expect(resultService).to.be.equals(returnResultExpect);
+    });
+  });
+
+
   describe('Verifica quando é chamado a funcao create no /products', () => {
   
     afterEach(() => Sinon.restore())
@@ -143,4 +174,3 @@ describe('Verificando testes do productsServices', () => {
   });
 
 });
-
